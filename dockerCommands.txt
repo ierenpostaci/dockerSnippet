@@ -1,0 +1,86 @@
+############ Ethernet  and USB Basler  ############
+sudo docker run -it --rm --net host -p 5000:5000 --gpus=all '/dev/bus/usb':'/dev/bus/usb' --privileged basler_usb:latest /bin/bash
+
+# DOCKER COMMANDS
+
+################################################################################################################################
+
+# IN WINDOWS AND UBUNTU HOSTS
+
+##########################
+
+# GENERAL INFO
+
+docker container allows you to manage containers, for example:
+
+docker container ls to list all running containers
+docker container kill CONTAINER to forcefully stop a running container
+docker container rm CONTAINER to remove a container
+docker inspect CONTAINER to view detailed information about a running container
+docker images allows you to manage images, for example:
+
+docker image ls to list all locally available images
+docker image rm IMAGE to remove an image
+docker image prune to remove dangling images (those not attached to a container, or a dependency for an image that is)
+docker image prune -a to remove all images
+docker image tag IMAGE IMAGE to tag an image from one image id or tag, to a new tag. (e.g. my-app:latest to my-app:1.0.0)
+
+example for docker hub pushing :
+1) docker tag bb38976d03cf yourhubusername/verse_gapminder:firsttry #tagged image with id
+2)docker push yourhubusername/verse_gapminder # push tagged image to docker
+
+##########################
+
+# RESEARCH STUDIES
+
+docker build -t python_rotate_img .   # created docker images with name "python_rotate_img"
+
+docker run -i -t python_rotate_img    # run created docker image
+docker run -p 8000:8000 python-fastapi # run created docker image with port "8000"
+
+docker cp python-imutils-rotate:gray.png /gray_copy_docker.jpeg # copy a file (.txt, .png or anything files destination location)
+
+docker exec -it 22f2059172c9 /bin/bash # run with image with id. If you run this method, you can change on image but in run command you don't.
+
+docker run -it --rm --gpus=all patchcore-main:latest /bin/bash # use if access gpu. Only you can access in run command, not exec method.
+
+docker run --rm --gpus all nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi # you can check nvidia cuda library import or not. It returns table in cmd.
+
+sudo find / -name leather_glue_005.png # actually the command comes with ubuntu. You can find any files in docker image.
+
+docker run -it --rm --env="DISPLAY" --gpus=all -w /anomalib -v /tmp/.X11-unix:/tmp/.X11-unix:rw anomalib-wls:latest # when you see image in XServer, necesseary for "-v /tmp/.X11-unix:/tmp/.X11-unix:rw" and "--env="DISPLAY""
+
+docker run -it --rm --env="DISPLAY" --gpus=all -w /anomalib -v /tmp/.X11-unix:/tmp/.X11-unix:rw //
+anomalib-wls:latest python ./tools/inference.py --config ./tools/config.yaml //
+--weight_path ./tools/results/patchcore/leatherv2__/weights/model.ckpt //
+--image_path ./tools/leather_glue_005.png --save_path ./tools/results # if run the script in cmd you can write python command and if library depencies with other libs, run with first files
+
+docker run -it --rm --env="DISPLAY" --gpus=all -v C:/Users/eren.postaci/Desktop/images_result:/anomalib/notebooks/ anomalib_wls_commit_3:latest //
+python ./tools/inference.py --config ./tools/config.yaml --weight_path ./tools/results/patchcore/leatherv2__/weights/model.ckpt //
+ --image_path ./notebooks/gray_copy_docker.png --save_path ./tools/results # if you access the local host files, you have to mouth files with "-v source_path:dest_path"
+
+################################################################################################################################
+
+# IN UBUNTU
+
+"""
+Below command import for connecting usb or ethernet camera connection. You can run only Ubuntu hosts. Because Windows don't permission connected devices nowadays.
+In usb connection you can mouth the device with "-v '/dev/bus/usb':'/dev/bus/usb' " and add to "--privileged". That two addition is necessary for
+connection camera.
+In gige device you have to "--network host" addition or build special lan with "ipvlan,macvlan, etc."
+"""
+
+sudo docker run -it --rm -v '/dev/bus/usb':'/dev/bus/usb' --privileged -e DISPLAY=$DISPLAY -v '/tmp/.X11-unix':'/tmp/.X11-unix' basler_usb:latest /bin/bash #for usb
+sudo docker run -it --rm -net host -e DISPLAY=$DISPLAY -v '/tmp/.X11-unix':'/tmp/.X11-unix' basler_usb:latest /bin/bash #for Ethernet
+
+################################################################################################################################
+
+kUBERTNESS
+
+kubectl apply -f deployment.yaml  # for the managing image with deployment.yaml
+
+kubectl delete --all pods # deleting for all image pods
+
+kubectl get pods # see all pods
+
+kubectl delete --all deployments # deleting all deployments
