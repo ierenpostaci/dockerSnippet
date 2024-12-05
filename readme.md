@@ -119,6 +119,7 @@ Runs a Docker container with GPU support enabled.
 #### Check NVIDIA CUDA availability
 ```bash
 docker run --rm --gpus all nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
+docker run --rm -it --gpus=all nvcr.io/nvidia/k8s/cuda-sample:nbody nbody -gpu -benchmark
 ```
 Checks if NVIDIA CUDA libraries and drivers are accessible in the container.
 
